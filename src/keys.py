@@ -1,6 +1,6 @@
 import os
 
-REPLICATE_API_TOKEN = "r8_ANDjoKvwuCjALlvwaNX2U0Oz1WTgaV91rcRvD"
+REPLICATE_API_TOKEN = ""
 
 DB_KEYS = {
     'user': '',
