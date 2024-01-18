@@ -1,0 +1,51 @@
+#####################
+#                   #
+#     SERVERLESS    #
+#                   #
+#####################
+
+# service name
+service: NOMBRE  # MODIFICAR AQUI NOMBRE
+
+# npm plugins
+plugins:
+  - serverless-latest-layer-version
+  - serverless-python-requirements
+  - serverless-prune-plugin
+custom:
+  pythonRequirements:
+    dockerizePip: true
+  prune:
+    automatic: true
+    number: 5
+
+# configuration
+provider:
+  name: aws
+  runtime: python3.10
+  role: arn:aws:iam::ACCOUNT_ID:role/lambda-gateway-execution-role # MODIFICAR AQUI ACCOUNT_ID y crear role si no existe
+  memorySize: 800
+  timeout: 30
+  stage: dev
+  region: us-west-2
+  # Select deployment S3 bucket
+  deploymentBucket:
+    name: BUCKET_NAME # MODIFICAR AQUI BUCKET_NAME y crear si es necesario
+
+#functions
+functions:
+  chat:
+    handler: handler.handler
+    events:
+    - http:
+        path: chat
+        method: post
+      
+package:
+  patterns:
+    - "!__pycache__/**"
+    - "!.serverless/**"
+    - "!**/tests/**"
+    - "!tests/**"
+    - "!node_modules/**"
+    - "!index_creation/**"
